@@ -1,3 +1,4 @@
+*****
 # Kafka-Based Backtest Pipeline on AWS EC2 with Docker
 
 This project runs a Python-based Kafka producer and consumer (`backtest.py`) on an AWS EC2 instance using Docker. It uses `kafka_producer.py` to send data to a Kafka topic and `backtest.py` to consume, process, and return JSON results.
@@ -6,19 +7,19 @@ This project runs a Python-based Kafka producer and consumer (`backtest.py`) on 
 
 ## 📁 Project Structure
 
+```
+
 project/
 │
 ├── docker-compose.yml
-├── kafka_producer/
-│ ├── kafka_producer.py
-│ └── Dockerfile
+├── kafka\_producer/
+│   ├── kafka\_producer.py
+│   └── Dockerfile
 ├── backtest/
-│ ├── backtest.py
-│ └── Dockerfile
+│   ├── backtest.py
+│   └── Dockerfile
 
-yaml
-Copy
-Edit
+````
 
 ---
 
@@ -33,26 +34,28 @@ WORKDIR /app
 
 COPY kafka_producer.py .
 
-RUN pip install numpy pandas confluent_kafka
+RUN pip install kafka-python
 
 CMD ["python", "kafka_producer.py"]
-backtest/Dockerfile
-dockerfile
-Copy
-Edit
+````
+
+### `backtest/Dockerfile`
+
+```dockerfile
 FROM python:3.10-slim
 
 WORKDIR /app
 
 COPY backtest.py .
 
-RUN pip install confluent_kafka numpy pandas 
+RUN pip install kafka-python
 
 CMD ["python", "backtest.py"]
-docker-compose.yml
-yaml
-Copy
-Edit
+```
+
+### `docker-compose.yml`
+
+```yaml
 version: '3.8'
 
 services:
@@ -87,85 +90,85 @@ services:
     build: ./kafka_producer
     depends_on:
       - kafka
-🔧 Modify Python Scripts
-In both kafka_producer.py and backtest.py, set the Kafka broker hostname to Docker's service name:
+```
 
-python
-Copy
-Edit
+---
+
+## 🔧 Modify Python Scripts
+
+In both `kafka_producer.py` and `backtest.py`, set the Kafka broker hostname to Docker's service name:
+
+```python
 KAFKA_BROKER = 'kafka:9092'
 TOPIC = 'backtest-topic'
-🚀 Deploy on EC2 (t3.micro)
-Launch EC2 Instance
+```
 
-Type: t3.micro
+---
 
-AMI: Ubuntu 22.04
+## 🚀 Deploy on EC2 (t3.micro)
 
-Open ports: 22, 9092, and any others as needed (e.g., 5000)
+1. **Launch EC2 Instance**
 
-Install Docker and Docker Compose
+   * Type: `t3.micro`
+   * AMI: Ubuntu 22.04
+   * Open ports: `22`, `9092`, and any others as needed (e.g., `5000`)
 
-bash
-Copy
-Edit
+2. **Install Docker and Docker Compose**
+
+```bash
 sudo apt update
 sudo apt install docker.io docker-compose -y
 sudo usermod -aG docker $USER
 newgrp docker
-Upload the Project
+```
+
+3. **Upload the Project**
 
 From local machine:
 
-bash
-Copy
-Edit
+```bash
 scp -i your-key.pem -r project/ ubuntu@<EC2_PUBLIC_IP>:~/
-Run the Docker Compose Project
+```
 
-bash
-Copy
-Edit
+4. **Run the Docker Compose Project**
+
+```bash
 cd project
 docker-compose up --build
-📤 Saving Output JSON from Consumer
-In backtest.py, you can write output like this:
+```
 
-python
-Copy
-Edit
-import json
+---
 
-result = {"processed": True, "data": "example"}
+## 📤 Retrieving output from output.json
 
-with open("output.json", "w") as f:
-    json.dump(result, f, indent=4)
-You can later extract the file from the container with:
-
-bash
-Copy
-Edit
+```bash
 docker cp backtest_container_name:/app/output.json .
-Or mount a volume in docker-compose.yml for persistence.
+```
 
-✅ Local Development
+Or mount a volume in `docker-compose.yml` for persistence.
+
+---
+
+## ✅ Local Development
+
 You can run this entire setup locally (Docker must be installed):
 
-bash
-Copy
-Edit
+```bash
 docker-compose up --build
+```
+
 This allows full testing before deploying to EC2.
 
-🔒 Notes
-Ensure your EC2 security group allows necessary inbound traffic (e.g., ports 22, 9092, 5000).
+---
 
-Use tmux or background services if you run parts manually.
+## 🔒 Notes
 
-For production, consider:
+* Ensure your EC2 security group allows necessary inbound traffic (e.g., ports 22, 9092, 5000).
+* Use `tmux` or background services if you run parts manually.
+* For production, consider:
 
-Using AWS MSK (Managed Kafka)
+  * Using AWS MSK (Managed Kafka)
+  * Logging and monitoring with Docker logs or volumes
+  * Reverse proxies (e.g., Nginx) for exposing Flask apps
 
-Logging and monitoring with Docker logs or volumes
-
-Reverse proxies (e.g., Nginx) for exposing Flask apps
+---
