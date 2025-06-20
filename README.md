@@ -36,7 +36,7 @@ python kafka_producer.py
 > ✅ Ensure Kafka is running locally with a topic named `mock_l1_stream`.
 
 
-### 2\. `order_allocator.py`
+### 2\. `backtest.py`
 
 This script listens to the Kafka stream and applies optimal allocation logic per tick. It evaluates cost performance across:
 
@@ -134,7 +134,7 @@ pip install pandas numpy confluent_kafka
 3.  **Run the Consumer/Allocator** to compute costs:
 
     ```
-    python order_allocator.py
+    python backtest.py
 
     ```
 
@@ -173,7 +173,7 @@ The custom allocator minimizes total cost by:
 | File | Description |
 | --- | --- |
 | `kafka_producer.py` | Streams historical L1 quotes into Kafka topic |
-| `order_allocator.py` | Consumes Kafka stream and evaluates execution strategies |
+| `backtest.py` | Consumes Kafka stream and evaluates execution strategies |
 | `l1_day.csv` | Historical quote data (must be present in project root) |
 
 * * * * *
@@ -194,7 +194,7 @@ The custom allocator minimizes total cost by:
 📄 License
 ----------
 
-This repository is for **research and educational purposes only**.
+This repository is for **interview assessent only**.
 
 * * * * *
 
