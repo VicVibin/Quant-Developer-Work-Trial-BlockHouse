@@ -48,7 +48,7 @@ WORKDIR /app
 
 COPY backtest.py .
 
-RUN pip install kafka-python
+RUN pip install confluent_kafka numpy pandas
 
 CMD ["python", "backtest.py"]
 ```
