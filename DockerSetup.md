@@ -33,7 +33,7 @@ WORKDIR /app
 
 COPY kafka_producer.py .
 
-RUN pip install kafka-python
+RUN pip install numpy pandas confluent_kafka
 
 CMD ["python", "kafka_producer.py"]
 backtest/Dockerfile
