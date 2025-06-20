@@ -1,3 +1,7 @@
+# Link to Loom Assessment Video
+https://www.loom.com/share/3a669dac708b418eb4d78003dcfb6c24?sid=f54091e1-989c-4ab0-ac19-17b58d1729bf
+
+
 # Optimal Order Allocation with Kafka-Simulated Market Data
 
 This repository demonstrates a real-time order allocation strategy using Level 1 (L1) market data streamed via Apache Kafka. It simulates streaming data and evaluates various execution strategies---including a custom optimizer, TWAP, VWAP, and naive best-ask---by comparing execution cost performance across these methods.
