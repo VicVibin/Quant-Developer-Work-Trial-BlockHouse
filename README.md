@@ -18,7 +18,7 @@ This module:
 
 ## 🛠️ Components
 
-### 1. `simulate_producer.py`
+### 1. `kafka_producer.py`
 
 This script streams historical market data into a Kafka topic in real-time pacing.
 
@@ -29,7 +29,7 @@ This script streams historical market data into a Kafka topic in real-time pacin
 
 #### Usage:
 ```bash
-python simulate_producer.py
+python kafka_producer.py
 
 ```
 
