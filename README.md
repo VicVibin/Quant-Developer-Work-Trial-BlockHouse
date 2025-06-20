@@ -127,7 +127,7 @@ pip install pandas numpy confluent_kafka
 2.  **Run the Producer** to simulate live data:
 
     ```
-    python simulate_producer.py
+    python kafka_producer.py
 
     ```
 
@@ -172,7 +172,7 @@ The custom allocator minimizes total cost by:
 
 | File | Description |
 | --- | --- |
-| `simulate_producer.py` | Streams historical L1 quotes into Kafka topic |
+| `kafka_producer.py` | Streams historical L1 quotes into Kafka topic |
 | `order_allocator.py` | Consumes Kafka stream and evaluates execution strategies |
 | `l1_day.csv` | Historical quote data (must be present in project root) |
 
